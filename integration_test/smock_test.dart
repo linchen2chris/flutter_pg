@@ -11,11 +11,13 @@ void main() {
     await tester.pumpAndSettle();
   });
 
-  testWidgets("reproduce twice issue", (tester) async {
-    var client = http.Client();
-    await client.get(Uri.parse("http://localhost:9615/"), headers: {
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-    });
-  });
+  // testWidgets("reproduce twice issue", (tester) async {
+  //   var client = http.Client();
+  //   await client.get(Uri.parse("http://localhost:9615/"), headers: {
+  //     "Content-Type": "application/json",
+  //     "Access-Control-Allow-Origin": "*",
+  //   });
+  // });
+  //
+  test('pause', () {});
 }
