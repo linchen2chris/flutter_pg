@@ -45,3 +45,17 @@ fvm flutter drive --driver=test_driver/integration_test.dart \
     -d chrome --headless
    #+end_src
 you will see chrome startup as well
+
+
+* What I learn
+** pump
+1. Future.delay will block the UI rendering, so it is not a good idea to use it in UI test to wait for some time
+2. pumpAndSettle will wait webrtc finish. but it will wait animation finish, it's a good idea to click button and wait it jump to new page
+    be careful after button click, if it has no animation, it won't wait for correctly
+3. pumpForSeconds totally same as pumpAndSettle, but it will wait for given seconds.
+4. tester.pump(Duration(seconds: 10)) will wait for 10 second, but UI is blocked. but it won't wait for animation finish
+** read state or context from widget
+1. use tester.state to get state
+2. use tester.firstWidget(find.byType(Widget)) to get widget
+
+
