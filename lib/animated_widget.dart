@@ -24,6 +24,7 @@ class _ExampleInfiniteAnimationState extends State<ExampleInfiniteAnimation>
 
   @override
   Widget build(BuildContext context) {
+    print('build animated');
     return Center(
       child: AnimatedBuilder(
         animation: _animation,

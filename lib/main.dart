@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_driver/driver_extension.dart';
 import 'package:flutter_pg/animated_widget.dart';
+import 'package:flutter_pg/rebuilding.dart';
 
-void main() {
-  enableFlutterDriverExtension();
+Future<void> main() async {
   runApp(const MyApp());
 }
 
@@ -123,6 +123,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             ExampleInfiniteAnimation(),
+            const RebuildWidget(),
           ],
         ),
       ),
