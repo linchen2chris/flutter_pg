@@ -2,9 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_driver/driver_extension.dart';
 import 'package:flutter_pg/animated_widget.dart';
 import 'package:flutter_pg/rebuilding.dart';
+import 'package:provider/provider.dart';
 
 Future<void> main() async {
   runApp(const MyApp());
+}
+
+class MyData {
+  final String value;
+
+  MyData(this.value);
 }
 
 class MyApp extends StatelessWidget {
@@ -13,22 +20,26 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
+    return MultiProvider(
+        providers: [
+          Provider<MyData>(create: (_) => MyData('Hello World')),
+        ],
+        child: MaterialApp(
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            // This is the theme of your application.
+            //
+            // Try running your application with "flutter run". You'll see the
+            // application has a blue toolbar. Then, without quitting the app, try
+            // changing the primarySwatch below to Colors.green and then invoke
+            // "hot reload" (press "r" in the console where you ran "flutter run",
+            // or simply save your changes to "hot reload" in a Flutter IDE).
+            // Notice that the counter didn't reset back to zero; the application
+            // is not restarted.
+            primarySwatch: Colors.blue,
+          ),
+          home: const MyHomePage(title: 'Flutter Demo Home Page'),
+        ));
   }
 }
 
@@ -47,11 +58,11 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MyHomePage> createState() => MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class MyHomePageState extends State<MyHomePage> {
+  int counter = 0;
   double containerWidth = 100;
 
   void _incrementCounter() {
@@ -61,12 +72,13 @@ class _MyHomePageState extends State<MyHomePage> {
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      _counter++;
+      counter++;
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final data = Provider.of<MyData>(context, listen: false);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -102,12 +114,14 @@ class _MyHomePageState extends State<MyHomePage> {
             const Text(
               'You have clicked the button this many times:',
             ),
+            Text(key: const Key('testTextState'), data.value),
             Text(
-              '$_counter',
+              '$counter',
               style: Theme.of(context).textTheme.headline4,
             ),
             Center(
               child: Container(
+                key: const Key('testWidgetState'),
                 height: containerWidth,
                 width: containerWidth,
                 color: Colors.red,
@@ -122,8 +136,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
-            ExampleInfiniteAnimation(),
-            const RebuildWidget(),
           ],
         ),
       ),

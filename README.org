@@ -57,5 +57,7 @@ you will see chrome startup as well
 ** read state or context from widget
 1. use tester.state to get state
 2. use tester.firstWidget(find.byType(Widget)) to get widget
+3. use tester.firstElement(find.byType(MyHomePage)) to get the build context
+4. then use Provider.of<>(tester.firstElement(find.byType(MyHomePage))) to get the provider data
 
 

@@ -1,8 +1,11 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_pg/main.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_pg/main.dart' as app;
+import 'package:provider/provider.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized(); // NEW
@@ -28,6 +31,29 @@ void main() {
     print('start Timer');
     await pumpForSeconds(tester, 10);
     print('end Timer');
+  }, skip: true);
+
+  testWidgets('Test Provider Data', (WidgetTester tester) async {
+    await app.main();
+    await tester.pumpAndSettle();
+    print('start context=============');
+    final data = Provider.of<MyData>(
+        tester.firstElement(find.byType(MyHomePage)),
+        listen: false);
+    print('data:      ${data.value}');
+    expect(data.value, equals('Hello World'));
+
+    await pumpForSeconds(tester, 10);
+    print('start state ============');
+    var state = tester.state<MyHomePageState>(find.byType(MyHomePage));
+    print('state:    ${state.containerWidth}, ${state.counter}');
+    await pumpForSeconds(tester, 10);
+    await tester.tap(find.byTooltip('Increment'));
+    print('new state:    ${state.containerWidth}, ${state.counter}');
+    await pumpForSeconds(tester, 10);
+    print('build contest ==============');
+    var context = tester.element(find.byType(MyHomePage));
+    print('context:    ${context.widget}');
   });
 }
 
