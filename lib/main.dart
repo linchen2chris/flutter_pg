@@ -113,7 +113,7 @@ class MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             const Text(
               key: Key('goldenTest'),
-              'You have clicked the button this many times:',
+              'You have clicked the button this many many many times:',
             ),
             Text(key: const Key('testTextState'), data.value),
             Text(
@@ -125,7 +125,7 @@ class MyHomePageState extends State<MyHomePage> {
                 key: const Key('testWidgetState'),
                 height: containerWidth,
                 width: containerWidth,
-                color: Colors.red,
+                color: Colors.redAccent,
                 child: GestureDetector(
                   onTap: () {
                     print('Container clicked');

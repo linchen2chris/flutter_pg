@@ -61,7 +61,7 @@ void main() {
     await app.main();
     await tester.pumpAndSettle();
     try {
-      await binding.takeScreenshot('GoldenTest-Text-dsfj');
+      await binding.takeScreenshot('GoldenTest-Text');
       print('=======+++++++++++++++++++++++++++++++++');
       // can't attach diff image here
     } catch (e) {
