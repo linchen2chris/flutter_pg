@@ -8,7 +8,8 @@ import 'package:flutter_pg/main.dart' as app;
 import 'package:provider/provider.dart';
 
 void main() {
-  IntegrationTestWidgetsFlutterBinding.ensureInitialized(); // NEW
+  final binding =
+      IntegrationTestWidgetsFlutterBinding.ensureInitialized(); // NEW
 
   testWidgets('load first page', (tester) async {
     await app.main();
@@ -54,6 +55,24 @@ void main() {
     print('build contest ==============');
     var context = tester.element(find.byType(MyHomePage));
     print('context:    ${context.widget}');
+  }, skip: true);
+
+  testWidgets('Golden test', (WidgetTester tester) async {
+    await app.main();
+    await tester.pumpAndSettle();
+    try {
+      await binding.takeScreenshot('GoldenTest-Text-dsfj');
+      print('=======+++++++++++++++++++++++++++++++++');
+      // can't attach diff image here
+    } catch (e) {
+      // screenshot failed or return false
+      // we could attach the diff here. and make test fail
+      print('error: $e');
+      throw ('current screenshot is different');
+    } finally {
+      print('attach diff image');
+    }
+    await pumpForSeconds(tester, 14);
   });
 }
 

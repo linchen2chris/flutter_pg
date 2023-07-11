@@ -59,5 +59,14 @@ you will see chrome startup as well
 2. use tester.firstWidget(find.byType(Widget)) to get widget
 3. use tester.firstElement(find.byType(MyHomePage)) to get the build context
 4. then use Provider.of<>(tester.firstElement(find.byType(MyHomePage))) to get the provider data
-
+** web integration test screenshot test with golden test
+web screenshot test still have some issue(https://github.com/flutter/flutter/pull/117114)
+*** issues:
+1. could not work with Skia Gold, flutter_golders not work on web yet. we have to do something with onScreenshot callback
+2. onScreenshot can't return false, if false, will throw exception
+3. we have to utlize the exception to check if the screenshot is same as golden
+*** how to use
+1. onScreenshot callback will check the screenshot with local file, if difference larger than tolerance then return false.
+2. in test code, take screenshot with specifical name like start with =Golden-Test=, then we can use the screenshot to compare with golden file
+3. catch error and attach difference image.
 

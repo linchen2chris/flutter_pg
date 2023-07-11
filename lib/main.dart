@@ -112,6 +112,7 @@ class MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
+              key: Key('goldenTest'),
               'You have clicked the button this many times:',
             ),
             Text(key: const Key('testTextState'), data.value),
