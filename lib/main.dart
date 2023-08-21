@@ -1,10 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_driver/driver_extension.dart';
-import 'package:flutter_pg/animated_widget.dart';
-import 'package:flutter_pg/rebuilding.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 
+class EnvironmentVariables {
+  EnvironmentVariables({this.testUser});
+
+  factory EnvironmentVariables.fromEnv(DotEnv dotenv) {
+    print('environ');
+    print(const String.fromEnvironment('TEST_USER'));
+    print('dotenv');
+    print(dotenv.env['TEST_USER']);
+    return EnvironmentVariables(
+        testUser: const String.fromEnvironment(
+      'TEST_USER',
+    ).isNotEmpty
+            ? const String.fromEnvironment('TEST_USER')
+            : dotenv.env['TEST_USER']);
+  }
+
+  final String? testUser;
+}
+
+late EnvironmentVariables env;
+
 Future<void> main() async {
+  await dotenv.load();
+  env = EnvironmentVariables.fromEnv(dotenv);
+  print('==================================');
+  print(env.testUser);
   runApp(const MyApp());
 }
 

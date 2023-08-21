@@ -74,4 +74,13 @@ web screenshot test still have some issue(https://github.com/flutter/flutter/pul
 1. it only compare the image difference, won't return the diff result.
 2. it compare image with a lot of algorithm, we can choose the best one. it could add tolerance to pixel,
 red and blue will be mark difference, but light red and dark red could be mark same.
-** diff_image could generate the diff result to image:  https://pub.dev/packages/diff_image, I could extend image_compare with result later.
+*** diff_image could generate the diff result to image:  https://pub.dev/packages/diff_image, I could extend image_compare with result later.
+
+** ENV
+*** dotenv
+1. you must put .env in assets/ and config =flutter:assets: assets/= in pubspec.yaml
+2. if you didn't set TEST_USER in .env then dotenv.env['TEST_USER'] is null
+3. if you set `TEST_USER=` in .env then it's empty string
+
+*** String.fromEnvironment
+

@@ -73,6 +73,13 @@ void main() {
       print('attach diff image');
     }
     await pumpForSeconds(tester, 14);
+  }, skip: true);
+
+  testWidgets('test environment', (WidgetTester tester) async {
+    await app.main();
+    await tester.pumpAndSettle();
+    print('====================${env.testUser}');
+    await pumpForSeconds(tester, 14);
   });
 }
 
