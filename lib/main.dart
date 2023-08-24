@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 
+import 'animated_widget.dart';
+
 class EnvironmentVariables {
   EnvironmentVariables({this.testUser});
 
@@ -160,6 +162,7 @@ class MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
+            ExampleInfiniteAnimation(),
           ],
         ),
       ),

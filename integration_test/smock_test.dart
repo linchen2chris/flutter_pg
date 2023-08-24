@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_pg/main.dart';
@@ -30,11 +31,17 @@ void main() {
     await Future.delayed(const Duration(seconds: 10));
     print('end delay');
     print('start Timer');
-    await pumpForSeconds(tester, 10);
+    await pumpForSeconds(tester, 2);
     print('end Timer');
-  }, skip: true);
+    print('start pumpUntil');
+    final found = await pumpUntilFound(
+        tester, find.byKey(const Key('non-exit')),
+        timeout: const Duration(seconds: 2));
+    expect(found, true, reason: 'did not find');
+  }, skip: false);
 
   testWidgets('Test Provider Data', (WidgetTester tester) async {
+    print("hello------------------------, a new test");
     await app.main();
     await tester.pumpAndSettle();
     print('start context=============');
@@ -80,7 +87,7 @@ void main() {
     await tester.pumpAndSettle();
     print('====================${env.testUser}');
     await pumpForSeconds(tester, 14);
-  });
+  }, skip: true);
 }
 
 Future<void> pumpForSeconds(WidgetTester tester, int seconds) async {
@@ -91,4 +98,27 @@ Future<void> pumpForSeconds(WidgetTester tester, int seconds) async {
   while (timerDone != true) {
     await tester.pump();
   }
+}
+
+Future<bool> pumpUntilFound(
+  WidgetTester tester,
+  Finder finder, {
+  Duration timeout = const Duration(seconds: 30),
+}) async {
+  bool timerDone = false;
+  final timer = Timer.periodic(timeout, (timer) {
+    timerDone = true;
+  });
+  while (timerDone != true) {
+    await tester.pump();
+
+    final found = tester.any(finder);
+    if (found) {
+      timerDone = true;
+      timer.cancel();
+      return true;
+    }
+  }
+  timer.cancel();
+  return false;
 }
