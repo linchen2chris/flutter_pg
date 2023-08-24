@@ -87,3 +87,6 @@ red and blue will be mark difference, but light red and dark red could be mark s
 ** throw error
 1. test里的函数如果throw error： 在 test里，我们放一个无限的动画，这样pumpAndSettle()会超时，会throw一个timeout的error，然后这个error会让测试停下来，后续的测试不会继续。
 2. test里直接throw不会有这个问题
+#+BEGIN_QUOTE
+  上面并不正确，pumpAndSettle超时并不会让test停下来。在pumpUntilFound里直接throw error（）同样不会让测试停下来，只有在 Timer的回调里throw error才会让测试停下来
+#+END_QUOTE

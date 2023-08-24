@@ -18,25 +18,26 @@ void main() {
     await tester.pumpAndSettle(const Duration(milliseconds: 100),
         EnginePhase.sendSemanticsUpdate, const Duration(seconds: 10));
     print('end pump settle');
-  }, skip: true);
+  }, skip: false);
 
   testWidgets('pause', (tester) async {
     await app.main();
-    await tester.pump(const Duration(seconds: 10));
     print('start pump');
+    await tester.pump(const Duration(seconds: 10));
     //await tester.pumpAndSettle(const Duration(milliseconds: 100),
     //    EnginePhase.sendSemanticsUpdate, const Duration(seconds: 10));
     print('end pump');
     print('start delay');
-    await Future.delayed(const Duration(seconds: 10));
+    await Future.delayed(const Duration(seconds: 5));
     print('end delay');
-    print('start Timer');
+    print('start pumpForSeconds');
     await pumpForSeconds(tester, 2);
-    print('end Timer');
-    print('start pumpUntil');
+    print('end pumpForSeconds');
+    print('start pumpUntilFound');
     final found = await pumpUntilFound(
         tester, find.byKey(const Key('non-exit')),
         timeout: const Duration(seconds: 2));
+    print('end pumpUntilFound');
     expect(found, true, reason: 'did not find');
   }, skip: false);
 
@@ -62,7 +63,7 @@ void main() {
     print('build contest ==============');
     var context = tester.element(find.byType(MyHomePage));
     print('context:    ${context.widget}');
-  }, skip: true);
+  }, skip: false);
 
   testWidgets('Golden test', (WidgetTester tester) async {
     await app.main();
@@ -100,14 +101,22 @@ Future<void> pumpForSeconds(WidgetTester tester, int seconds) async {
   }
 }
 
+void throwErrorFun() {
+  final timer = Timer(const Duration(seconds: 2),
+      () => throw TimeoutException('indirect timed out'));
+}
+
 Future<bool> pumpUntilFound(
   WidgetTester tester,
   Finder finder, {
   Duration timeout = const Duration(seconds: 30),
 }) async {
   bool timerDone = false;
-  final timer = Timer.periodic(timeout, (timer) {
+  //final timer =
+  //  Timer(timeout, () => throw TimeoutException('Pump until has timed out'));
+  final timer = Timer(timeout, () {
     timerDone = true;
+    throw TimeoutException('Pump until has timed out');
   });
   while (timerDone != true) {
     await tester.pump();
